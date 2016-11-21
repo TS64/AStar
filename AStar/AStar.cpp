@@ -14,11 +14,13 @@ int main(int argc, char* argv[])
 {
 	Game* game = new Game();
 
-	game->Initialize("AStar game", SDL_WINDOW_INPUT_FOCUS);
+	game->Initialize("AStar game", SDL_WINDOW_SHOWN);
 
 	while (game->IsRunning())
 	{
+		game->HandleEvents();
 		game->Update();
+		game->Render();
 	}
     return 0;
 }
