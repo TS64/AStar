@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "SDL.h"
 #include "SDL_render.h"
+#include "Player.h"
+#include "World.h"
 #include <iostream>
 
 class Game
@@ -19,7 +21,9 @@ private:
 	SDL_Surface* screenSurface;
 	SDL_Renderer* m_renderer;
 	SDL_Rect rectangle;
+	Player player;
+	World world;
 
-	const int SCREEN_WIDTH = 800;
-	const int SCREEN_HEIGHT = 600;
+	const int SCREEN_WIDTH = 1000;
+	const int SCREEN_HEIGHT = 1000;
 };

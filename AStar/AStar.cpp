@@ -6,6 +6,7 @@
 #include <SDL_image.h>
 
 #include "Game.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	Game* game = new Game();
+	Player* player = new Player();
 
 	game->Initialize("AStar game", SDL_WINDOW_SHOWN);
 
