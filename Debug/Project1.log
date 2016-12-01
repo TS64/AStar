@@ -1,2 +1,8 @@
-﻿  Project1.vcxproj -> C:\Users\gameuser\Desktop\AStar\AStar\Debug\Project1.exe
-  Project1.vcxproj -> C:\Users\gameuser\Desktop\AStar\AStar\Debug\Project1.pdb (Full PDB)
+﻿  Node.cpp
+c:\users\gameuser\desktop\astar\astar\node.cpp(12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  Generating Code...
+  Compiling...
+  AStarSearch.cpp
+c:\users\gameuser\desktop\astar\astar\astarsearch.cpp(45): error C2039: 'calculateCost': is not a member of 'Node'
+  c:\users\gameuser\desktop\astar\astar\node.h(8): note: see declaration of 'Node'
+  Generating Code...

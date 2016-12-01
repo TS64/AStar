@@ -7,20 +7,20 @@ Node::Node(int x, int y)
 	cost = 0;
 }
 
-int Node::calculateCost(int xStart, int yStart, int xFinish, int yFinish)
+int Node::calculateFunc(int xStart, int yStart, int xFinish, int yFinish)
 {
-	int cost = sqrt(((xFinish - xStart) * (xFinish - xStart)) + ((yFinish - yStart) * (yFinish - yStart)));
+	int cost = abs(sqrt(((xFinish - xStart) * (xFinish - xStart)) + ((yFinish - yStart) * (yFinish - yStart))));
 	return cost;
 }
 
-int Node::getCost()
+int Node::getFunc()
 {
-	return cost;
+	return func;
 }
 
-void Node::setCost(int c)
+void Node::setCost(int f)
 {
-	cost = c;
+	func = f;
 }
 
 void Node::setParent(Node* p)

@@ -19,11 +19,18 @@ public:
 	Node* getChild();
 	int getX();
 	int getY();
-	int calculateCost(int xStart, int yStart, int xFinish, int yFinish);
-	int getCost();
+	int calculateFunc(int xStart, int yStart, int xFinish, int yFinish);
+	int getFunc();
 	void setCost(int c);
+	void setG(int xStart, int yStart, int xFinish, int yFinish);
+	int getG();
+	void setH(int xStart);
 	int cost;
 private:
 	Node* parent;
 	Node* child;
+
+	int func;
+	int g;
+	int h;
 };

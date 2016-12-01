@@ -10,6 +10,7 @@ std::priority_queue<Node*> AStarSearch::Search(int xStart, int yStart, int xFini
 {
 	Node *start = new Node(xStart, yStart);
 	Node *finish = new Node(xFinish, yFinish);
+	Node *previous = NULL;
 	Node *current = NULL;
 	Node *child = NULL;
 
@@ -41,7 +42,7 @@ std::priority_queue<Node*> AStarSearch::Search(int xStart, int yStart, int xFini
 
 		for each (Node* next in getNeighbours(current))
 		{
-			newCost += currentCost + current->calculateCost(current->getX(), current->getY(), next->getX(), next->getY());
+			newCost += currentCost + current->calculateFunc(current->getX(), current->getY(), next->getX(), next->getY());
 
 		}
 	}
