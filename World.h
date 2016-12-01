@@ -15,10 +15,12 @@ public:
 	char getGridContents(int x, int y);
 	int getWorldSize();
 	std::pair<int, int> getPlayerPosition();
+	std::vector < std::pair<int, int>> wallPosition;
 private:
 	int worldSize;
 	std::pair<int, int> playerPosition;
 	SDL_Rect outerWall;
+	std::vector<SDL_Rect> wallRectangles;
 
 	SDL_Rect playerRect;
 
