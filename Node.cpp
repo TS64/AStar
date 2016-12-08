@@ -2,25 +2,27 @@
 
 Node::Node(int x, int y)
 {
-	xPosition = x;
-	yPosition = y;
-	cost = 0;
+	xPos = x;
+	yPos = y;
+	f = 0;
 }
 
-int Node::calculateFunc(int xStart, int yStart, int xFinish, int yFinish)
+float Node::calculateFunc(int xStart, int yStart, int xFinish, int yFinish)
 {
-	int cost = abs(sqrt(((xFinish - xStart) * (xFinish - xStart)) + ((yFinish - yStart) * (yFinish - yStart))));
-	return cost;
+	f = calculateG(xStart, yStart) + calculateH(xFinish, yFinish);
+	return calculateG(xStart, yStart) + calculateH(xFinish, yFinish);
 }
 
-int Node::getFunc()
+float Node::calculateG(int xStart, int yStart)
 {
-	return func;
+	g = abs(sqrt(((xPos - xStart) * (xPos - xStart)) + ((yPos - yStart) * (yPos - yStart))));
+	return g;
 }
 
-void Node::setCost(int f)
+float Node::calculateH(int xFinish, int yFinish)
 {
-	func = f;
+	h = abs(sqrt(((xPos - xFinish) * (xPos - xFinish)) + ((yPos - yFinish) * (yPos - yFinish))));
+	return h;
 }
 
 void Node::setParent(Node* p)
@@ -41,14 +43,4 @@ void Node::setChild(Node* c)
 Node* Node::getChild()
 {
 	return child;
-}
-
-int Node::getX()
-{
-	return xPosition;
-}
-
-int Node::getY()
-{
-	return yPosition;
 }

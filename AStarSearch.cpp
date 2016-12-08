@@ -6,9 +6,10 @@ AStarSearch::AStarSearch()
 
 }
 
-std::priority_queue<Node*> AStarSearch::Search(int xStart, int yStart, int xFinish, int yFinish)
+std::list<Node*> AStarSearch::Search(int xStart, int yStart, int xFinish, int yFinish)
 {
 	Node *start = new Node(xStart, yStart);
+	start->f = 0;
 	Node *finish = new Node(xFinish, yFinish);
 	Node *previous = NULL;
 	Node *current = NULL;
@@ -18,59 +19,96 @@ std::priority_queue<Node*> AStarSearch::Search(int xStart, int yStart, int xFini
 	std::list<Node*> closedNodeList;
 	std::list<Node*>::iterator itr;
 
-	//std::list<Node*> path;
-
-	std::priority_queue<Node*> queue;
-	queue.push(start);
-
-	int currentCost = 0;
-	int newCost = 0;
-
-	start->setCost(0);
-
 	openNodeList.push_back(start);
-	start->open = true;
 
-	while (!queue.empty())
+	while (!openNodeList.empty())
 	{
-		current = queue.top();
-
-		if (current == finish)
+		Node* q = getLowestF(openNodeList, xStart, yStart, xFinish, yFinish);
+		openNodeList.remove(q);
+		for each (Node* s in getNeighbours(q))
 		{
-			break;
-		}
+			if (s == finish)
+			{
 
-		for each (Node* next in getNeighbours(current))
-		{
-			newCost += currentCost + current->calculateFunc(current->getX(), current->getY(), next->getX(), next->getY());
+			}
+			s->g = q->g + distanceBetweenNodes(s, q);
+			s->h = s->calculateH(xFinish, yFinish);
+			s->f = s->g + s->h;
+
+			for each (Node* n in openNodeList)
+			{
+				if (n->xPos == s->xPos && n->yPos == s->yPos && s->f > n->f)
+				{
+					//skip
+				}
+				else
+				{
+					openNodeList.push_back(n);
+				}
+			}
+			for each (Node* n in closedNodeList)
+			{
+				if (n->xPos == s->xPos && n->yPos == s->yPos && s->f > n->f)
+				{
+					//skip
+				}
+				else
+				{
+					openNodeList.push_back(n);
+				}
+			}
 
 		}
+		closedNodeList.push_back(q);
 	}
 
-	return queue;
+
+	
+
+	return openNodeList;
 }
 
 std::vector<Node*> AStarSearch::getNeighbours(Node* n)
 {
-	if (n->getX() != 0)
+	if (n->xPos != 0)
 	{
-		Node* leftNeighbour = new Node(n->getX() - 1, n->getY());
+		Node* leftNeighbour = new Node(n->xPos - 1, n->yPos);
 		neighbours.push_back(leftNeighbour);
 	}
-	if (n->getX() != worldSize)
+	if (n->xPos != worldSize)
 	{
-		Node* rightNeighbour = new Node(n->getX() + 1, n->getY());
+		Node* rightNeighbour = new Node(n->xPos + 1, n->yPos);
 		neighbours.push_back(rightNeighbour);
 	}
-	if (n->getY() != 0)
+	if (n->yPos != 0)
 	{
-		Node* aboveNeighbour = new Node(n->getX(), n->getY() - 1);
+		Node* aboveNeighbour = new Node(n->xPos, n->yPos - 1);
 		neighbours.push_back(aboveNeighbour);
 	}
-	if (n->getY() != worldSize)
+	if (n->yPos != worldSize)
 	{
-		Node* belowNeighbour = new Node(n->getX(), n->getY() + 1);
+		Node* belowNeighbour = new Node(n->xPos, n->yPos + 1);
 		neighbours.push_back(belowNeighbour);
 	}
 	return neighbours;
+}
+
+Node* getLowestF(std::list<Node*> nodes, int xStart, int yStart, int xFinish, int yFinish)
+{
+	int lowestF = INFINITY;
+	Node* q;
+	for each (Node* n in nodes)
+	{
+		if (n->calculateFunc(xStart, yStart, xFinish, yFinish) < lowestF)
+		{
+			lowestF = n->f;
+			q = n;
+		}
+	}
+	return q;
+}
+
+float distanceBetweenNodes(Node* n, Node* q)
+{
+	return abs(sqrt(((n->xPos - q->yPos) * (n->xPos - q->yPos)) + ((n->yPos - q->yPos) * (n->yPos - q->yPos))));
 }
