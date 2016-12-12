@@ -1,14 +1,18 @@
 #pragma once
 #include "Node.h"
+#include <iostream>
 
 class AStarSearch
 {
 public:
-	AStarSearch();
+	AStarSearch(int x, int y);
 	std::list<Node*> Search(int xStart, int yStart, int xFinish, int yFinish);
-	std::vector<Node*> getNeighbours(Node* n);
+	std::list<Node*> getNeighbours(Node* n);
 private:
-	std::vector<Node*> neighbours;
+	std::list<Node*> neighbours;
 	int worldSize = 49;
+	Node* goal;
+	std::list<Node*> AStarSearch::createPath(Node* n);
+	Node* AStarSearch::findInList(std::list<Node*> list, Node* find);
 };
 

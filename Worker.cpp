@@ -1,8 +1,10 @@
 #include "Worker.h"
 
-Worker::Worker()
+Worker::Worker(short x, short y)
 {
-
+	xPosition = x;
+	yPosition = y;
+	aStar = new AStarSearch(targetXPosition, targetYPosition);
 }
 
 void Worker::setTarget(short x, short y)
@@ -21,7 +23,18 @@ short Worker::getYPosition()
 	return yPosition;
 }
 
-void Worker::calculateDistance(short xTarget, short yTarget)
+void Worker::findPath(int xTarget, int yTarget)
 {
-	int dist = sqrt(((xTarget - xPosition) * (xTarget - xPosition)) + ((yTarget - yPosition) * (yTarget - yPosition)));
+	foundPath = aStar->Search(xPosition, yPosition, xTarget, yTarget);
+	while (!foundPath.empty())
+	{
+		int x = foundPath.back()->xPos;
+		int y = foundPath.back()->yPos;
+		foundPath.pop_back();
+		std::pair<int, int> nextTile;
+		nextTile.first = x;
+		nextTile.second = y;
+		myPath.push_back(nextTile);
+	}
+	int x = 1;
 }

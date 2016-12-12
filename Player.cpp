@@ -16,6 +16,7 @@ void Player::Initialize(int x, int y, int spd, SDL_Window* window, SDL_Renderer*
 	m_renderer = renderer;
 	m_surface = surface;
 	rect = { x, y, 1000 / x, 1000 / y };
+	positionLock = false;
 }
 
 void Player::Update()
@@ -29,32 +30,40 @@ void Player::HandleEvents(SDL_Keycode e)
 	switch (e)
 	{
 	case SDLK_RIGHT:
+		positionLock = true;
 		printf("right");
 		if (world->getPlayerPosition().first != worldSize - 1)
 		{
 			position.first += speed;
 		}
+		positionLock = false;
 		break;
 	case SDLK_LEFT:
+		positionLock = true;
 		printf("left");
 		if (world->getPlayerPosition().first != 0)
 		{
 			position.first -= speed;
 		}
+		positionLock = false;
 		break;
 	case SDLK_DOWN:
+		positionLock = true;
 		printf("down");
 		if (world->getPlayerPosition().second != worldSize - 1)
 		{
 			position.second += speed;
 		}
+		positionLock = false;
 		break;
 	case SDLK_UP:
+		positionLock = true;
 		printf("up");
 		if (world->getPlayerPosition().second != 0)
 		{
 			position.second -= speed;
 		}
+		positionLock = false;
 		break;
 	default:
 		SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
@@ -69,5 +78,8 @@ void Player::Render()
 
 std::pair<int, int> Player::getPosition()
 {
-	return position;
+	if (!positionLock)
+	{
+		return position;
+	}
 }

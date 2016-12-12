@@ -30,7 +30,7 @@ int main(int argc, char** argv){
 		{
 			fps = 1000.0f / frameTime;
 		}		
-		cout << "FPS: " << fps << endl;
+		//cout << "FPS: " << fps << endl;
 	}
 	return 0;
 }

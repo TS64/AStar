@@ -16,6 +16,7 @@ public:
 	void HandleEvents(SDL_Keycode e);
 	void Render();
 	std::pair<int, int> getPosition();
+	bool positionLock;
 
 private:
 	std::pair<int, int> position;

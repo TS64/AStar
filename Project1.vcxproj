@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AStarSearch.cpp" />
+    <ClCompile Include="Coordinator.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -82,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AStarSearch.h" />
+    <ClInclude Include="Coordinator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Player.h" />

@@ -1,5 +1,14 @@
 #include "Game.h"
 
+int Game::threadFunction(void* data)
+{
+	printf("running thread with value = %d\n", (int)data);
+	Coordinator coord;
+	coord.SetTarget(1, 1);
+	coord.RunCoorinator();
+	return 0;
+}
+
 Game::Game()
 {
 	m_window = NULL;
@@ -7,7 +16,12 @@ Game::Game()
 	screenSurface = NULL;
 	player = Player();
 	world = World();
+	coordinator = Coordinator();
 	worldSize = 50;
+
+	thread = NULL;
+
+	SDL_Thread* threadID = SDL_CreateThread(threadFunction, "LazyThread", 0);
 }
 
 bool Game::Initialize(const char* title, int flags)
@@ -46,6 +60,7 @@ bool Game::Initialize(const char* title, int flags)
 	printf("Game::Init() success");
 	world.Initialize(worldSize, m_window, m_renderer);
 	player.Initialize(1000 / worldSize, 1000 / worldSize, worldSize, m_window, m_renderer, screenSurface, &world);
+	coordinator.SetTarget(1, 1);
 	return true;
 }
 

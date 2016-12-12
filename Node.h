@@ -2,6 +2,7 @@
 #include <list>
 #include <vector>
 #include <queue>
+#include <algorithm>
 #include <math.h>
 
 class Node
