@@ -15,13 +15,18 @@ float Node::calculateFunc(int xStart, int yStart, int xFinish, int yFinish)
 
 float Node::calculateG(int xStart, int yStart)
 {
-	g = abs(sqrt(((xPos - xStart) * (xPos - xStart)) + ((yPos - yStart) * (yPos - yStart))));
+	float dx = abs(xPos - xStart);
+	float dy = abs(yPos - yStart);
+	float g = dx + dy;
+	std::cout << "x1: " << xPos << "|y1: " << yPos << "|x2: " << xStart << "|y2: " << yStart << "|Distance between nodesG: " << g << std::endl;
 	return g;
 }
 
 float Node::calculateH(int xFinish, int yFinish)
 {
-	h = abs(sqrt(((xPos - xFinish) * (xPos - xFinish)) + ((yPos - yFinish) * (yPos - yFinish))));
+	float dx = abs(xPos - xFinish);
+	float dy = abs(yPos - yFinish);
+	float h = dx + dy;
 	return h;
 }
 

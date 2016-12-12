@@ -21,6 +21,6 @@ public:
 private:
 	
 	AStarSearch* aStar;
-	std::list<Node*> foundPath;
-	std::list<std::pair<int, int>> myPath;
+	std::vector<Node*> foundPath;
+	std::vector<std::pair<int, int>> myPath;
 };

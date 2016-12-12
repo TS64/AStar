@@ -1,5 +1,8 @@
-﻿  main.cpp
-c:\users\tomas\desktop\astar\astar\main.cpp(23): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
-c:\users\tomas\desktop\astar\astar\main.cpp(27): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+﻿  AStarSearch.cpp
+c:\users\tomas\desktop\astar\astar\astarsearch.cpp(52): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\tomas\desktop\astar\astar\astarsearch.cpp(61): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tomas\desktop\astar\astar\astarsearch.cpp(62): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tomas\desktop\astar\astar\astarsearch.cpp(143): warning C4018: '<': signed/unsigned mismatch
+c:\users\tomas\desktop\astar\astar\astarsearch.cpp(151): warning C4715: 'AStarSearch::removeNode': not all control paths return a value
   Project1.vcxproj -> C:\Users\Tomas\Desktop\AStar\AStar\Debug\Project1.exe
   Project1.vcxproj -> C:\Users\Tomas\Desktop\AStar\AStar\Debug\Project1.pdb (Full PDB)

@@ -6,9 +6,10 @@ AStarSearch::AStarSearch(int xGoal, int yGoal)
 	goal = new Node(xGoal, yGoal);
 }
 
-std::list<Node*> AStarSearch::getNeighbours(Node* n)
+std::vector<Node*> AStarSearch::getNeighbours(Node* n)
 {
-	std::list<Node*> neighbours;
+	std::vector<Node*> neighbours;
+	neighbours.clear();
 	if (n->xPos != 0)
 	{
 		Node* leftNeighbour = new Node(n->xPos - 1, n->yPos);
@@ -40,7 +41,7 @@ std::list<Node*> AStarSearch::getNeighbours(Node* n)
 	return neighbours;
 }
 
-Node* getLowestF(std::list<Node*> nodes, int xStart, int yStart, int xFinish, int yFinish)
+Node* getLowestF(std::vector<Node*> nodes, int xStart, int yStart, int xFinish, int yFinish)
 {
 	int lowestF = 100000;
 	Node* q = nullptr;
@@ -57,16 +58,22 @@ Node* getLowestF(std::list<Node*> nodes, int xStart, int yStart, int xFinish, in
 
 float distanceBetweenNodes(Node* n, Node* q)
 {
-	return abs(sqrt(((n->xPos - q->yPos) * (n->xPos - q->yPos)) + ((n->yPos - q->yPos) * (n->yPos - q->yPos))));
+	float dx = abs(n->xPos - q->xPos);
+	float dy = abs(n->yPos - q->yPos);
+	float h = dx + dy;
+	std::cout << "x1: " << n->xPos << "|y1: " << n->yPos << "|x2: " << q->xPos << "|y2: " << q->yPos << "|Distance between nodesH: " << h << std::endl;
+	n->h = h;
+	
+	return h;
 }
 
-std::list<Node*> AStarSearch::Search(int xStart, int yStart, int xFinish, int yFinish)
+std::vector<Node*> AStarSearch::Search(int xStart, int yStart, int xFinish, int yFinish)
 {
 	Node* start = new Node(xStart, yStart);
 	start->f = 0;
 	Node* finish = new Node(xFinish, yFinish);
-	std::list<Node*> openList;
-	std::list<Node*> closedList;
+	std::vector<Node*> openList;
+	std::vector<Node*> closedList;
 
 	openList.push_back(start);
 
@@ -74,11 +81,11 @@ std::list<Node*> AStarSearch::Search(int xStart, int yStart, int xFinish, int yF
 	{
 		Node* current = getLowestF(openList, xStart, yStart, xFinish, yFinish);
 		std::cout << current->xPos << " - " << current->yPos << std::endl;
-		if (current == finish)
+		if (current->xPos == finish->xPos && current->yPos == finish->yPos)
 		{
 			return createPath(current);
 		}
-		openList.pop_back();
+		openList = removeNode(openList, current);
 		closedList.push_back(current);
 		for each (Node* neighbour in getNeighbours(current))
 		{
@@ -103,11 +110,11 @@ std::list<Node*> AStarSearch::Search(int xStart, int yStart, int xFinish, int yF
 			}
 		}
 	}
-	std::list<Node*> fail;
+	std::vector<Node*> fail;
 	return fail;
 }
 
-Node* AStarSearch::findInList(std::list<Node*> list, Node* find)
+Node* AStarSearch::findInList(std::vector<Node*> list, Node* find)
 {
 	for each (Node* var in list)
 	{
@@ -119,9 +126,9 @@ Node* AStarSearch::findInList(std::list<Node*> list, Node* find)
 	return nullptr;
 }
 
-std::list<Node*> AStarSearch::createPath(Node* n)
+std::vector<Node*> AStarSearch::createPath(Node* n)
 {
-	std::list<Node*> path;
+	std::vector<Node*> path;
 	path.push_back(n);
 	while (n->getParent() != nullptr)
 	{
@@ -129,4 +136,16 @@ std::list<Node*> AStarSearch::createPath(Node* n)
 		path.push_back(n);
 	}
 	return path;
+}
+
+std::vector<Node*> AStarSearch::removeNode(std::vector<Node*> list, Node* n)
+{
+	for (int i = 0; i < list.size(); i++)
+	{
+		if (list.at(i)->xPos == n->xPos && list.at(i)->yPos == n->yPos)
+		{
+			list.erase(list.begin() + i);
+			return list;
+		}
+	}
 }

@@ -6,13 +6,14 @@ class AStarSearch
 {
 public:
 	AStarSearch(int x, int y);
-	std::list<Node*> Search(int xStart, int yStart, int xFinish, int yFinish);
-	std::list<Node*> getNeighbours(Node* n);
+	std::vector<Node*> Search(int xStart, int yStart, int xFinish, int yFinish);
+	std::vector<Node*> getNeighbours(Node* n);
 private:
-	std::list<Node*> neighbours;
+	std::vector<Node*> neighbours;
 	int worldSize = 49;
 	Node* goal;
-	std::list<Node*> AStarSearch::createPath(Node* n);
-	Node* AStarSearch::findInList(std::list<Node*> list, Node* find);
+	std::vector<Node*> createPath(Node* n);
+	std::vector<Node*> removeNode(std::vector<Node*> list, Node* n);
+	Node* findInList(std::vector<Node*> list, Node* find);
 };
 
