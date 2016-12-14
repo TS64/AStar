@@ -5,7 +5,7 @@ Player::Player()
 
 }
 
-void Player::Initialize(int x, int y, int spd, SDL_Window* window, SDL_Renderer* renderer, SDL_Surface* surface, World* w)
+void Player::Initialize(short x, short y, short spd, SDL_Window* window, SDL_Renderer* renderer, SDL_Surface* surface, World* w)
 {
 	world = w;
 	position.first = x;
@@ -72,11 +72,11 @@ void Player::HandleEvents(SDL_Keycode e)
 
 void Player::Render()
 {
-	SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(m_renderer, 0x00, 0xFF, 0x00, 0xFF);
 	SDL_RenderFillRect(m_renderer, &rect);
 }
 
-std::pair<int, int> Player::getPosition()
+std::pair<short, short> Player::getPosition()
 {
 	if (!positionLock)
 	{

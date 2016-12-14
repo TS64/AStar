@@ -11,18 +11,18 @@ class Player
 {
 public:
 	Player();
-	void Initialize(int x, int y, int speed, SDL_Window* w, SDL_Renderer* r, SDL_Surface* s, World* world);
+	void Initialize(short x, short y, short speed, SDL_Window* w, SDL_Renderer* r, SDL_Surface* s, World* world);
 	void Update();
 	void HandleEvents(SDL_Keycode e);
 	void Render();
-	std::pair<int, int> getPosition();
+	std::pair<short, short> getPosition();
 	bool positionLock;
 
 private:
-	std::pair<int, int> position;
-	int worldSize;
-	int speed;
-	int m_speed;
+	std::pair<short, short> position;
+	short worldSize;
+	short speed;
+	short m_speed;
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	SDL_Rect rect;
 

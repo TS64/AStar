@@ -1,7 +1,6 @@
 #pragma once
 #include "SDL.h"
 #include "SDL_render.h"
-#include "SDL_thread.h"
 #include "Player.h"
 #include "World.h"
 #include "Coordinator.h"
@@ -11,14 +10,13 @@
 class Game
 {
 public:
-	Game();
+	Game(char size);
 	bool Initialize(const char* title, int flags);
 	bool IsRunning();
 	void Update();
 	void HandleEvents();
 	void Render();
 
-	SDL_Thread *thread;
 private:
 	bool m_running;
 	SDL_Window* m_window;
@@ -27,12 +25,10 @@ private:
 	SDL_Rect rectangle;
 	Player player;
 	World world;
-	Coordinator coordinator;
-	int worldSize;
+	Coordinator* coordinator;
+	short worldSize;
 
-	const int SCREEN_WIDTH = 1000;
-	const int SCREEN_HEIGHT = 1000;
-
-	static int threadFunction(void* data);
-	bool quit = false;
+	short SCREEN_WIDTH = 990;
+	short SCREEN_HEIGHT = 990;
+	short workersPerCoord = 5;
 };

@@ -1,28 +1,28 @@
 #include "Node.h"
 
-Node::Node(int x, int y)
+Node::Node(short x, short y)
 {
 	xPos = x;
 	yPos = y;
 	f = 0;
 }
 
-float Node::calculateFunc(int xStart, int yStart, int xFinish, int yFinish)
+float Node::calculateFunc(short xStart, short yStart, short xFinish, short yFinish)
 {
 	f = calculateG(xStart, yStart) + calculateH(xFinish, yFinish);
 	return calculateG(xStart, yStart) + calculateH(xFinish, yFinish);
 }
 
-float Node::calculateG(int xStart, int yStart)
+float Node::calculateG(short xStart, short yStart)
 {
 	float dx = abs(xPos - xStart);
 	float dy = abs(yPos - yStart);
 	float g = dx + dy;
-	std::cout << "x1: " << xPos << "|y1: " << yPos << "|x2: " << xStart << "|y2: " << yStart << "|Distance between nodesG: " << g << std::endl;
+	//std::cout << "x1: " << xPos << "|y1: " << yPos << "|x2: " << xStart << "|y2: " << yStart << "|Distance between nodesG: " << g << std::endl;
 	return g;
 }
 
-float Node::calculateH(int xFinish, int yFinish)
+float Node::calculateH(short xFinish, short yFinish)
 {
 	float dx = abs(xPos - xFinish);
 	float dy = abs(yPos - yFinish);

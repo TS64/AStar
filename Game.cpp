@@ -1,27 +1,30 @@
 #include "Game.h"
 
-int Game::threadFunction(void* data)
-{
-	printf("running thread with value = %d\n", (int)data);
-	Coordinator coord;
-	coord.SetTarget(1, 1);
-	coord.RunCoorinator();
-	return 0;
-}
-
-Game::Game()
+Game::Game(char size)
 {
 	m_window = NULL;
 	m_renderer = NULL;
 	screenSurface = NULL;
 	player = Player();
 	world = World();
-	coordinator = Coordinator();
-	worldSize = 50;
+	worldSize = 30;
+	if (size == 1)
+	{
+		worldSize = 30;
+	}
+	else if (size == 2)
+	{
+		worldSize = 100;
+		SCREEN_WIDTH = 1000;
+		SCREEN_HEIGHT = 1000;
+	}
+	else if (size == 3)
+	{
+		worldSize = 1000;
+		SCREEN_WIDTH = 1000;
+		SCREEN_HEIGHT = 1000;
+	}
 
-	thread = NULL;
-
-	SDL_Thread* threadID = SDL_CreateThread(threadFunction, "LazyThread", 0);
 }
 
 bool Game::Initialize(const char* title, int flags)
@@ -58,9 +61,11 @@ bool Game::Initialize(const char* title, int flags)
 	m_running = true;
 	screenSurface = SDL_GetWindowSurface(m_window);
 	printf("Game::Init() success");
-	world.Initialize(worldSize, m_window, m_renderer);
+	world.Initialize(worldSize, SCREEN_WIDTH, SCREEN_HEIGHT, m_window, m_renderer);
 	player.Initialize(1000 / worldSize, 1000 / worldSize, worldSize, m_window, m_renderer, screenSurface, &world);
-	coordinator.SetTarget(1, 1);
+	coordinator = new Coordinator(m_window, m_renderer, screenSurface, 1000 / worldSize, 1000 / worldSize, 10, world);
+	coordinator->SetTarget(1, 1);
+	coordinator->RunCoorinator();
 	return true;
 }
 
@@ -99,6 +104,7 @@ void Game::Render()
 
 	world.Render();
 	player.Render();
+	coordinator->Render();
 
 	SDL_RenderPresent(m_renderer);
 }

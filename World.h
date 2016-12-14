@@ -1,24 +1,27 @@
 #pragma once
 #include "SDL_render.h"
 #include <vector>
+#include <ctime>
 
 class World
 {
 public:
 	World();
-	void Initialize(int size, SDL_Window* w, SDL_Renderer* r);
+	void Initialize(short worldSize, short windowX, short windowY, SDL_Window* w, SDL_Renderer* r);
 	void Update();
 	void HandleEvents();
 	void Render();
-	char worldArray[50][50];
-	void setPlayerPosition(int x, int y);
-	char getGridContents(int x, int y);
-	int getWorldSize();
-	std::pair<int, int> getPlayerPosition();
-	std::vector < std::pair<int, int>> wallPosition;
+	std::vector<std::vector<short>> worldArray;
+	void setPlayerPosition(short x, short y);
+	char getGridContents(short x, short y);
+	short getWorldSize();
+	std::pair<short, short> getPlayerPosition();
+	std::vector < std::pair<short, short>> wallPosition;
+	std::vector<std::pair<short, short>> getWalls();
 private:
-	int worldSize;
-	std::pair<int, int> playerPosition;
+	short worldSize;
+	std::pair<short, short> playerPosition;
+	std::vector<std::pair<short, short>> worldWalls;
 	SDL_Rect outerWall;
 	std::vector<SDL_Rect> wallRectangles;
 
@@ -26,4 +29,9 @@ private:
 
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
+	void createWalls(char walls, char sides, short size);
+	std::vector<short> World::getUniqueRandom(short n);
+	char wallsTouchingSides;
+	char noOfWalls;
+	char sizeOfWalls;
 };

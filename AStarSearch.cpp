@@ -1,9 +1,14 @@
 #include "AStarSearch.h"
 
+AStarSearch::AStarSearch()
+{
 
-AStarSearch::AStarSearch(int xGoal, int yGoal)
+}
+
+AStarSearch::AStarSearch(short xGoal, short yGoal, short size)
 {
 	goal = new Node(xGoal, yGoal);
+	worldSize = size;
 }
 
 std::vector<Node*> AStarSearch::getNeighbours(Node* n)
@@ -12,38 +17,50 @@ std::vector<Node*> AStarSearch::getNeighbours(Node* n)
 	neighbours.clear();
 	if (n->xPos != 0)
 	{
-		Node* leftNeighbour = new Node(n->xPos - 1, n->yPos);
-		leftNeighbour->g = n->g + 1;
-		leftNeighbour->setParent(n);
-		neighbours.push_back(leftNeighbour);
+		if (!checkForWalls(n->xPos - 1, n->yPos))
+		{
+			Node* leftNeighbour = new Node(n->xPos - 1, n->yPos);
+			leftNeighbour->g = n->g + 1;
+			leftNeighbour->setParent(n);
+			neighbours.push_back(leftNeighbour);
+		}
 	}
 	if (n->xPos != worldSize)
 	{
-		Node* rightNeighbour = new Node(n->xPos + 1, n->yPos);
-		rightNeighbour->g = n->g + 1;
-		rightNeighbour->setParent(n);
-		neighbours.push_back(rightNeighbour);
+		if (!checkForWalls(n->xPos + 1, n->yPos))
+		{
+			Node* rightNeighbour = new Node(n->xPos + 1, n->yPos);
+			rightNeighbour->g = n->g + 1;
+			rightNeighbour->setParent(n);
+			neighbours.push_back(rightNeighbour);
+		}
 	}
 	if (n->yPos != 0)
 	{
-		Node* aboveNeighbour = new Node(n->xPos, n->yPos - 1);
-		aboveNeighbour->g = n->g + 1;
-		aboveNeighbour->setParent(n);
-		neighbours.push_back(aboveNeighbour);
+		if (!checkForWalls(n->xPos, n->yPos - 1))
+		{
+			Node* aboveNeighbour = new Node(n->xPos, n->yPos - 1);
+			aboveNeighbour->g = n->g + 1;
+			aboveNeighbour->setParent(n);
+			neighbours.push_back(aboveNeighbour);
+		}
 	}
 	if (n->yPos != worldSize)
 	{
-		Node* belowNeighbour = new Node(n->xPos, n->yPos + 1);
-		belowNeighbour->g = n->g + 1;
-		belowNeighbour->setParent(n);
-		neighbours.push_back(belowNeighbour);
+		if (!checkForWalls(n->xPos, n->yPos + 1))
+		{
+			Node* belowNeighbour = new Node(n->xPos, n->yPos + 1);
+			belowNeighbour->g = n->g + 1;
+			belowNeighbour->setParent(n);
+			neighbours.push_back(belowNeighbour);
+		}
 	}
 	return neighbours;
 }
 
-Node* getLowestF(std::vector<Node*> nodes, int xStart, int yStart, int xFinish, int yFinish)
+Node* getLowestF(std::vector<Node*> nodes, short xStart, short yStart, short xFinish, short yFinish)
 {
-	int lowestF = 100000;
+	short lowestF = 30000;
 	Node* q = nullptr;
 	for each (Node* n in nodes)
 	{
@@ -61,14 +78,14 @@ float distanceBetweenNodes(Node* n, Node* q)
 	float dx = abs(n->xPos - q->xPos);
 	float dy = abs(n->yPos - q->yPos);
 	float h = dx + dy;
-	std::cout << "x1: " << n->xPos << "|y1: " << n->yPos << "|x2: " << q->xPos << "|y2: " << q->yPos << "|Distance between nodesH: " << h << std::endl;
 	n->h = h;
 	
 	return h;
 }
 
-std::vector<Node*> AStarSearch::Search(int xStart, int yStart, int xFinish, int yFinish)
+std::vector<Node*> AStarSearch::Search(short xStart, short yStart, short xFinish, short yFinish, std::vector<std::pair<short, short>> w)
 {
+	walls = w;
 	Node* start = new Node(xStart, yStart);
 	start->f = 0;
 	Node* finish = new Node(xFinish, yFinish);
@@ -80,7 +97,7 @@ std::vector<Node*> AStarSearch::Search(int xStart, int yStart, int xFinish, int 
 	while (!openList.empty())
 	{
 		Node* current = getLowestF(openList, xStart, yStart, xFinish, yFinish);
-		std::cout << current->xPos << " - " << current->yPos << std::endl;
+		//std::cout << current->xPos << " - " << current->yPos << std::endl;
 		if (current->xPos == finish->xPos && current->yPos == finish->yPos)
 		{
 			return createPath(current);
@@ -126,6 +143,18 @@ Node* AStarSearch::findInList(std::vector<Node*> list, Node* find)
 	return nullptr;
 }
 
+bool AStarSearch::checkForWalls(short x, short y)
+{
+	for (short i = 0; i < walls.size(); i++)
+	{
+		if (x == walls.at(i).first && y == walls.at(i).second)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 std::vector<Node*> AStarSearch::createPath(Node* n)
 {
 	std::vector<Node*> path;
@@ -140,7 +169,7 @@ std::vector<Node*> AStarSearch::createPath(Node* n)
 
 std::vector<Node*> AStarSearch::removeNode(std::vector<Node*> list, Node* n)
 {
-	for (int i = 0; i < list.size(); i++)
+	for (short i = 0; i < list.size(); i++)
 	{
 		if (list.at(i)->xPos == n->xPos && list.at(i)->yPos == n->yPos)
 		{

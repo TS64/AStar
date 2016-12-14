@@ -1,8 +1,29 @@
-﻿  AStarSearch.cpp
+﻿  World.cpp
+  Worker.cpp
+  Waypoint.cpp
+  Player.cpp
+  Node.cpp
+c:\users\tomas\desktop\astar\astar\node.cpp(18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tomas\desktop\astar\astar\node.cpp(19): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tomas\desktop\astar\astar\node.cpp(27): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\tomas\desktop\astar\astar\node.cpp(28): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+c:\users\tomas\desktop\astar\astar\main.cpp(47): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+c:\users\tomas\desktop\astar\astar\main.cpp(51): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+  Game.cpp
+c:\users\tomas\desktop\astar\astar\game.cpp(66): warning C4244: 'argument': conversion from 'short' to 'char', possible loss of data
+  Coordinator.cpp
+c:\users\tomas\desktop\astar\astar\coordinator.cpp(25): warning C4018: '<': signed/unsigned mismatch
+c:\users\tomas\desktop\astar\astar\coordinator.cpp(33): warning C4018: '<': signed/unsigned mismatch
+c:\users\tomas\desktop\astar\astar\coordinator.cpp(43): warning C4018: '<': signed/unsigned mismatch
+c:\users\tomas\desktop\astar\astar\coordinator.cpp(45): warning C4018: '<': signed/unsigned mismatch
+  AStarSearch.cpp
 c:\users\tomas\desktop\astar\astar\astarsearch.cpp(52): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 c:\users\tomas\desktop\astar\astar\astarsearch.cpp(61): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 c:\users\tomas\desktop\astar\astar\astarsearch.cpp(62): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 c:\users\tomas\desktop\astar\astar\astarsearch.cpp(143): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
 c:\users\tomas\desktop\astar\astar\astarsearch.cpp(151): warning C4715: 'AStarSearch::removeNode': not all control paths return a value
+c:\users\tomas\desktop\astar\astar\player.cpp(85): warning C4715: 'Player::getPosition': not all control paths return a value
   Project1.vcxproj -> C:\Users\Tomas\Desktop\AStar\AStar\Debug\Project1.exe
   Project1.vcxproj -> C:\Users\Tomas\Desktop\AStar\AStar\Debug\Project1.pdb (Full PDB)
