@@ -19,6 +19,7 @@ public:
 	void Update();
 	short targetXPosition;
 	short targetYPosition;
+	bool foundTarget;
 private:
 	AStarSearch aStar;
 	std::vector<Node*> foundPath;

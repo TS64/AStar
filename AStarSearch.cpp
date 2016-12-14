@@ -7,14 +7,32 @@ AStarSearch::AStarSearch()
 
 AStarSearch::AStarSearch(short xGoal, short yGoal, short size)
 {
-	goal = new Node(xGoal, yGoal);
 	worldSize = size;
 }
 
 std::vector<Node*> AStarSearch::getNeighbours(Node* n)
 {
 	std::vector<Node*> neighbours;
-	neighbours.clear();
+	if (n->yPos != worldSize)
+	{
+		if (!checkForWalls(n->xPos, n->yPos + 1))
+		{
+			Node* belowNeighbour = new Node(n->xPos, n->yPos + 1);
+			belowNeighbour->g = n->g + 1;
+			belowNeighbour->setParent(n);
+			neighbours.push_back(belowNeighbour);
+		}
+	}
+	if (n->yPos != 0)
+	{
+		if (!checkForWalls(n->xPos, n->yPos - 1))
+		{
+			Node* aboveNeighbour = new Node(n->xPos, n->yPos - 1);
+			aboveNeighbour->g = n->g + 1;
+			aboveNeighbour->setParent(n);
+			neighbours.push_back(aboveNeighbour);
+		}
+	}
 	if (n->xPos != 0)
 	{
 		if (!checkForWalls(n->xPos - 1, n->yPos))
@@ -35,26 +53,7 @@ std::vector<Node*> AStarSearch::getNeighbours(Node* n)
 			neighbours.push_back(rightNeighbour);
 		}
 	}
-	if (n->yPos != 0)
-	{
-		if (!checkForWalls(n->xPos, n->yPos - 1))
-		{
-			Node* aboveNeighbour = new Node(n->xPos, n->yPos - 1);
-			aboveNeighbour->g = n->g + 1;
-			aboveNeighbour->setParent(n);
-			neighbours.push_back(aboveNeighbour);
-		}
-	}
-	if (n->yPos != worldSize)
-	{
-		if (!checkForWalls(n->xPos, n->yPos + 1))
-		{
-			Node* belowNeighbour = new Node(n->xPos, n->yPos + 1);
-			belowNeighbour->g = n->g + 1;
-			belowNeighbour->setParent(n);
-			neighbours.push_back(belowNeighbour);
-		}
-	}
+	
 	return neighbours;
 }
 
@@ -83,23 +82,26 @@ float distanceBetweenNodes(Node* n, Node* q)
 	return h;
 }
 
-std::vector<Node*> AStarSearch::Search(short xStart, short yStart, short xFinish, short yFinish, std::vector<std::pair<short, short>> w)
+std::vector<std::pair<short, short>> AStarSearch::Search(short xStart, short yStart, short xFinish, short yFinish, std::vector<std::pair<short, short>> w)
 {
+	//std::cout << "x: " << xFinish << " y: " << yFinish << std::endl;
 	walls = w;
 	Node* start = new Node(xStart, yStart);
 	start->f = 0;
 	Node* finish = new Node(xFinish, yFinish);
-	std::vector<Node*> openList;
-	std::vector<Node*> closedList;
+	
+	openList.clear();
+	closedList.clear();
 
 	openList.push_back(start);
 
 	while (!openList.empty())
 	{
 		Node* current = getLowestF(openList, xStart, yStart, xFinish, yFinish);
-		//std::cout << current->xPos << " - " << current->yPos << std::endl;
 		if (current->xPos == finish->xPos && current->yPos == finish->yPos)
 		{
+			delete start;
+			delete finish;
 			return createPath(current);
 		}
 		openList = removeNode(openList, current);
@@ -127,7 +129,8 @@ std::vector<Node*> AStarSearch::Search(short xStart, short yStart, short xFinish
 			}
 		}
 	}
-	std::vector<Node*> fail;
+	std::vector<std::pair<short, short>> fail;
+	printf("Couldn't find path");
 	return fail;
 }
 
@@ -155,16 +158,53 @@ bool AStarSearch::checkForWalls(short x, short y)
 	return false;
 }
 
-std::vector<Node*> AStarSearch::createPath(Node* n)
+void AStarSearch::cleanUp()
+{
+	for (int d = closedList.size() - 1; d > 0;)
+	{
+		delete closedList.at(d);
+		closedList.at(d) = NULL;
+		closedList.resize(closedList.size() - 1);
+		d = closedList.size() - 1;
+	}
+	closedList.clear();
+	
+	clearVector(openList);
+	clearVector(neighbours);
+	
+}
+
+void AStarSearch::clearVector(std::vector<Node*> & v)
+{
+	for (int i = 0; i < v.size(); i++)
+	{
+		delete v[i];
+		v[i] = NULL;
+	}
+	v.clear();
+}
+
+std::vector<std::pair<short, short>> AStarSearch::createPath(Node* n)
 {
 	std::vector<Node*> path;
+	std::vector<std::pair<short, short>> npath;
+	std::pair<short, short> tile;
+	tile.first = n->xPos;
+	tile.second = n->yPos;
 	path.push_back(n);
+	npath.push_back(tile);
 	while (n->getParent() != nullptr)
 	{
+		
 		n = n->getParent();
+		tile.first = n->xPos;
+		tile.second = n->yPos;
 		path.push_back(n);
+		npath.push_back(tile);
 	}
-	return path;
+	std::reverse(npath.begin(), npath.end());
+	cleanUp();
+	return npath;
 }
 
 std::vector<Node*> AStarSearch::removeNode(std::vector<Node*> list, Node* n)

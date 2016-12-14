@@ -81,7 +81,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Waypoint.cpp" />
     <ClCompile Include="Worker.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -91,7 +90,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Waypoint.h" />
     <ClInclude Include="Worker.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

@@ -6,12 +6,15 @@ Worker::Worker(short x, short y, short size, std::vector<std::pair<short, short>
 	yPosition = y;
 	aStar = AStarSearch(targetXPosition, targetYPosition, size);
 	walls = w;
+	foundTarget = false;
 }
 
 void Worker::setTarget(short x, short y)
 {
 	targetXPosition = x;
 	targetYPosition = y;
+	myPath.clear();
+	foundPath.clear();
 }
 
 short Worker::getXPosition()
@@ -26,9 +29,11 @@ short Worker::getYPosition()
 
 void Worker::findPath(short xTarget, short yTarget)
 {
-	foundPath = aStar.Search(xPosition, yPosition, xTarget, yTarget, walls);
-	printf("Path found");
-	while (!foundPath.empty())
+	//std::cout << "x: " << xTarget << " y: " << yTarget << std::endl;
+	myPath = aStar.Search(xPosition, yPosition, xTarget, yTarget, walls);
+	printf("Path-found ");
+	foundTarget = true;
+	/*while (!foundPath.empty())
 	{
 		short x = foundPath.back()->xPos;
 		short y = foundPath.back()->yPos;
@@ -37,10 +42,20 @@ void Worker::findPath(short xTarget, short yTarget)
 		nextTile.first = x;
 		nextTile.second = y;
 		myPath.push_back(nextTile);
-	}
+	}*/
 }
 
 std::vector<std::pair<short, short>> Worker::getPath()
 {
 	return myPath;
+}
+
+void Worker::Update()
+{
+	if (myPath.size() > 0)
+	{
+		xPosition = myPath.at(0).first;
+		yPosition = myPath.at(0).second;
+		myPath.erase(myPath.begin(), myPath.begin() + 1);
+	}
 }

@@ -7,6 +7,11 @@ Node::Node(short x, short y)
 	f = 0;
 }
 
+Node::~Node()
+{
+	//printf("deleted node\n");
+}
+
 float Node::calculateFunc(short xStart, short yStart, short xFinish, short yFinish)
 {
 	f = calculateG(xStart, yStart) + calculateH(xFinish, yFinish);
@@ -38,14 +43,4 @@ void Node::setParent(Node* p)
 Node* Node::getParent()
 {
 	return parent;
-}
-
-void Node::setChild(Node* c)
-{
-	child = c;
-}
-
-Node* Node::getChild()
-{
-	return child;
 }

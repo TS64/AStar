@@ -5,12 +5,12 @@ Player::Player()
 
 }
 
-void Player::Initialize(short x, short y, short spd, SDL_Window* window, SDL_Renderer* renderer, SDL_Surface* surface, World* w)
+void Player::Initialize(short x, short y, short spd, SDL_Window* window, SDL_Renderer* renderer, SDL_Surface* surface, World w)
 {
 	world = w;
 	position.first = x;
 	position.second = y;
-	worldSize = world->getWorldSize();
+	worldSize = world.getWorldSize();
 	speed = 1000 / spd;
 	m_window = window;
 	m_renderer = renderer;
@@ -21,7 +21,7 @@ void Player::Initialize(short x, short y, short spd, SDL_Window* window, SDL_Ren
 
 void Player::Update()
 {
-	world->setPlayerPosition(position.first / (1000 / worldSize), position.second / (1000 / worldSize));
+	world.setPlayerPosition(position.first / (1000 / worldSize), position.second / (1000 / worldSize));
 	rect = { position.first, position.second, 1000 / worldSize, 1000 / worldSize };
 }
 
@@ -32,7 +32,8 @@ void Player::HandleEvents(SDL_Keycode e)
 	case SDLK_RIGHT:
 		positionLock = true;
 		printf("right");
-		if (world->getPlayerPosition().first != worldSize - 1)
+		if (world.getPlayerPosition().first != worldSize - 1 
+			&& checkForWalls(world.getPlayerPosition().first + 1, world.getPlayerPosition().second))
 		{
 			position.first += speed;
 		}
@@ -41,7 +42,8 @@ void Player::HandleEvents(SDL_Keycode e)
 	case SDLK_LEFT:
 		positionLock = true;
 		printf("left");
-		if (world->getPlayerPosition().first != 0)
+		if (world.getPlayerPosition().first != 0 
+			&& checkForWalls(world.getPlayerPosition().first - 1, world.getPlayerPosition().second))
 		{
 			position.first -= speed;
 		}
@@ -50,7 +52,8 @@ void Player::HandleEvents(SDL_Keycode e)
 	case SDLK_DOWN:
 		positionLock = true;
 		printf("down");
-		if (world->getPlayerPosition().second != worldSize - 1)
+		if (world.getPlayerPosition().second != worldSize - 1 
+			&& checkForWalls(world.getPlayerPosition().first, world.getPlayerPosition().second + 1))
 		{
 			position.second += speed;
 		}
@@ -59,7 +62,8 @@ void Player::HandleEvents(SDL_Keycode e)
 	case SDLK_UP:
 		positionLock = true;
 		printf("up");
-		if (world->getPlayerPosition().second != 0)
+		if (world.getPlayerPosition().second != 0 
+			&& checkForWalls(world.getPlayerPosition().first, world.getPlayerPosition().second - 1))
 		{
 			position.second -= speed;
 		}
@@ -82,4 +86,16 @@ std::pair<short, short> Player::getPosition()
 	{
 		return position;
 	}
+}
+
+bool Player::checkForWalls(short x, short y)
+{
+	for (int i = 0; i < world.getWalls().size(); i++)
+	{
+		if (x == world.getWalls().at(i).first && y == world.getWalls().at(i).second)
+		{
+			return false;
+		}
+	}
+	return true;
 }

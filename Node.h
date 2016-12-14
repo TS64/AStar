@@ -10,6 +10,7 @@ class Node
 {
 public:
 	Node(short x, short y);
+	~Node();
 	short xPos;
 	short yPos;
 	float g;	// START TO NODE
@@ -20,12 +21,9 @@ public:
 	bool open;
 	void setParent(Node* p);
 	Node* getParent();
-	void setChild(Node* p);
-	Node* getChild();
 	float calculateFunc(short xStart, short yStart, short xFinish, short yFinish);
 	float calculateG(short xStart, short yStart);
 	float calculateH(short xFinish, short yFinish);
-	
 private:
 	Node* parent;
 	Node* child;

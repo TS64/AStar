@@ -11,15 +11,16 @@ class Player
 {
 public:
 	Player();
-	void Initialize(short x, short y, short speed, SDL_Window* w, SDL_Renderer* r, SDL_Surface* s, World* world);
+	void Initialize(short x, short y, short speed, SDL_Window* w, SDL_Renderer* r, SDL_Surface* s, World world);
 	void Update();
 	void HandleEvents(SDL_Keycode e);
 	void Render();
 	std::pair<short, short> getPosition();
 	bool positionLock;
+	std::pair<short, short> position;
 
 private:
-	std::pair<short, short> position;
+	
 	short worldSize;
 	short speed;
 	short m_speed;
@@ -31,5 +32,6 @@ private:
 	SDL_Renderer* m_renderer;
 	SDL_Surface* m_surface;
 
-	World* world;
+	World world;
+	bool checkForWalls(short x, short y);
 };

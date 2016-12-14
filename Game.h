@@ -16,6 +16,7 @@ public:
 	void Update();
 	void HandleEvents();
 	void Render();
+	void Delete();
 
 private:
 	bool m_running;
@@ -25,10 +26,12 @@ private:
 	SDL_Rect rectangle;
 	Player player;
 	World world;
-	Coordinator* coordinator;
+	Coordinator coordinator;
 	short worldSize;
 
 	short SCREEN_WIDTH = 990;
 	short SCREEN_HEIGHT = 990;
 	short workersPerCoord = 5;
+	std::vector<Coordinator> coordinatorVector;
+	short numberOfCoordinators = 1;
 };

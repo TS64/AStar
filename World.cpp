@@ -23,7 +23,7 @@ void World::Initialize(short size, short windowX, short windowY, SDL_Window* win
 	{
 		noOfWalls = 3;
 		wallsTouchingSides = 1;
-		sizeOfWalls = 15;
+		sizeOfWalls = 10;
 	}
 	if (worldSize == 100)
 	{
@@ -96,14 +96,49 @@ void World::createWalls(char walls, char sides, short size)
 	touchingWalls = getUniqueRandom(walls);
 	for (char i = 0; i < walls; i++)
 	{
-		randPos = rand() % (sizeRange - 1) + 1;
-		for (short s = 0; s < size; s++)
+		if (std::find(touchingWalls.begin(), touchingWalls.end(), i) != touchingWalls.end()) // touching wall
 		{
-			wall.first = distanceBetweenWalls * (i + 1);
-			wall.second = s + randPos;
-			worldArray[wall.first][wall.second] = 1;
-			worldWalls.push_back(wall);
+			randPos = rand() % (sizeRange - 1) + 1;
+			for (short s = 0; s < size; s++)
+			{
+				wall.first = distanceBetweenWalls * (i + 1);
+				wall.second = s + randPos;
+				worldArray[wall.first][wall.second] = 1;
+				worldWalls.push_back(wall);
+			}
+			if (randPos >= size / 2) // touching low wall
+			{
+				for (short w = worldSize; w > worldSize / 2; w--)
+				{
+					wall.first = distanceBetweenWalls * (i + 1);
+					wall.second = w;
+					worldArray[wall.first][wall.second] = 1;
+					worldWalls.push_back(wall);
+				}
+			}
+			else
+			{
+				for (short w = 0; w < worldSize / 2; w++)
+				{
+					wall.first = distanceBetweenWalls * (i + 1);
+					wall.second = w;
+					worldArray[wall.first][wall.second] = 1;
+					worldWalls.push_back(wall);
+				}
+			}
 		}
+		else  // not touching wall
+		{
+			randPos = rand() % (sizeRange - 1) + 1;
+			for (short s = 0; s < size; s++)
+			{
+				wall.first = distanceBetweenWalls * (i + 1);
+				wall.second = s + randPos;
+				worldArray[wall.first][wall.second] = 1;
+				worldWalls.push_back(wall);
+			}
+		}
+		
 	}
 	/*for (int i = 0; i < 12; i++)
 	{

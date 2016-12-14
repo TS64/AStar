@@ -1,16 +1,2 @@
-﻿  World.cpp
-World.cpp(38): warning C4305: '=': truncation from 'int' to 'char'
-World.cpp(38): warning C4309: '=': truncation of constant value
-World.cpp(58): warning C4018: '<': signed/unsigned mismatch
-World.cpp(75): warning C4244: 'return': conversion from 'short' to 'char', possible loss of data
-World.cpp(95): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-World.cpp(131): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-World.cpp(141): warning C4101: 'unique': unreferenced local variable
-World.cpp(157): warning C4101: 'unique': unreferenced local variable
-  Generating code
-  91 of 829 functions (11.0%) were compiled, the rest were copied from previous compilation.
-    34 functions were new in current compilation
-    53 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  Project1.vcxproj -> C:\Users\Tomas\Desktop\AStar\AStar\Release\Project1.exe
+﻿  Project1.vcxproj -> C:\Users\Tomas\Desktop\AStar\AStar\Release\Project1.exe
   Project1.vcxproj -> C:\Users\Tomas\Desktop\AStar\AStar\Release\Project1.pdb (Full PDB)

@@ -57,6 +57,7 @@ int main(int argc, char** argv){
 		}		
 		//cout << "FPS: " << fps << endl;
 	}
+	//delete game;
 	return 0;
 }
 

@@ -11,18 +11,24 @@ Game::Game(char size)
 	if (size == 1)
 	{
 		worldSize = 30;
+		numberOfCoordinators = 1;
+		workersPerCoord = 5;
 	}
 	else if (size == 2)
 	{
 		worldSize = 100;
 		SCREEN_WIDTH = 1000;
 		SCREEN_HEIGHT = 1000;
+		numberOfCoordinators = 5;
+		workersPerCoord = 10;
 	}
 	else if (size == 3)
 	{
 		worldSize = 1000;
 		SCREEN_WIDTH = 1000;
 		SCREEN_HEIGHT = 1000;
+		numberOfCoordinators = 6;
+		workersPerCoord = 71;
 	}
 
 }
@@ -62,16 +68,35 @@ bool Game::Initialize(const char* title, int flags)
 	screenSurface = SDL_GetWindowSurface(m_window);
 	printf("Game::Init() success");
 	world.Initialize(worldSize, SCREEN_WIDTH, SCREEN_HEIGHT, m_window, m_renderer);
-	player.Initialize(1000 / worldSize, 1000 / worldSize, worldSize, m_window, m_renderer, screenSurface, &world);
-	coordinator = new Coordinator(m_window, m_renderer, screenSurface, 1000 / worldSize, 1000 / worldSize, 10, world);
-	coordinator->SetTarget(1, 1);
-	coordinator->RunCoorinator();
+	player.Initialize(1000 / worldSize, 1000 / worldSize, worldSize, m_window, m_renderer, screenSurface, world);
+	
+	for (short c = 0; c < numberOfCoordinators; c++)
+	{
+		coordinator = Coordinator(m_window, m_renderer, screenSurface, worldSize, worldSize, workersPerCoord, world, player, c);
+		coordinator.SetTarget(player);
+		coordinatorVector.push_back(coordinator);
+	}
+	if (numberOfCoordinators == 6)
+	{
+		Coordinator lastCoordinator = Coordinator(m_window, m_renderer, screenSurface, worldSize, worldSize, 74, world, player, 6);
+		coordinatorVector.push_back(lastCoordinator);
+	}
+	
 	return true;
 }
 
 void Game::Update()
 {
 	player.Update();
+	for (short c = 0; c < coordinatorVector.size(); c++)
+	{
+		coordinatorVector.at(c).SetTarget(player);
+		coordinatorVector.at(c).RunCoorinator();
+		coordinatorVector.at(c).Update();
+	}
+	/*coordinator.SetTarget(player);
+	coordinator.RunCoorinator();
+	coordinator.Update();*/
 }
 
 void Game::HandleEvents()
@@ -104,7 +129,11 @@ void Game::Render()
 
 	world.Render();
 	player.Render();
-	coordinator->Render();
+	for (short c = 0; c < coordinatorVector.size(); c++)
+	{
+		coordinatorVector.at(c).Render();
+	}
+	
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -112,4 +141,9 @@ void Game::Render()
 bool Game::IsRunning()
 {
 	return m_running;
+}
+
+void Game::Delete()
+{
+	
 }
